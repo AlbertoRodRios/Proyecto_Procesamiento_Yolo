@@ -54,7 +54,6 @@ runs/**
 !runs/**/val_batch*.jpg
 
 outputs/
-/results/
 
 # Model weights / checkpoints
 *.pt
