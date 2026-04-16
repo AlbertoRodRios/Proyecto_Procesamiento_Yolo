@@ -45,7 +45,7 @@ def parse_experiment_name(folder_name: str):
     gpu_tag = parts[4]
     seed_tag = parts[5]
 
-    if visual_pipeline not in {"A", "C", "D"}:
+    if visual_pipeline not in {"A", "B", "C", "D"}:
         return None
 
     if normalization not in {"N0", "N1"}:

@@ -12,7 +12,7 @@ FINAL_CSV = ANALYSIS_INPUT_DIR / "epoch_final_metrics.csv"
 BEST_CSV = ANALYSIS_INPUT_DIR / "best_epoch_metrics.csv"
 SUMMARY_CSV = ANALYSIS_INPUT_DIR / "summary_metrics.csv"
 
-PIPELINE_ORDER = ["A_N0", "A_N1", "C_N0", "C_N1", "D_N0", "D_N1"]
+PIPELINE_ORDER = ["A_N0", "A_N1", "B_N0", "B_N1", "C_N0", "C_N1"]
 
 
 def load_dataframes() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
