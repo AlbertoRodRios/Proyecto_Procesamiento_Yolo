@@ -58,7 +58,7 @@ class StandardizedDetectionValidator(DetectionValidator):
     en validación/test que se usa en entrenamiento.
     """
 
-    CHANNEL_STATS_PATH = "data/pipeline_A/channel_stats.json"
+    CHANNEL_STATS_PATH = "data/channel_stats.json"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -102,7 +102,7 @@ class StandardizedDetectionTrainer(DetectionTrainer):
     y además fuerza un validator con la misma transformación.
     """
 
-    CHANNEL_STATS_PATH = "data/pipeline_A/channel_stats.json"
+    CHANNEL_STATS_PATH = "data/channel_stats.json"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

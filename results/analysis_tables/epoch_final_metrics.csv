@@ -1,6 +1,8 @@
-experiment_name,pipeline,seed,mode,epoch,precision,recall,mAP50,mAP50_95,train_box_loss,train_cls_loss,train_dfl_loss,val_box_loss,val_cls_loss,val_dfl_loss
-pipeline_A_e50_gpu_seed7,A,7,final_epoch,50,0.75436,0.7037,0.757,0.53498,0.66981,0.58777,1.02174,1.04868,0.98954,1.26248
-pipeline_A_e50_gpu_seed42,A,42,final_epoch,50,0.77312,0.68066,0.75832,0.53526,0.66948,0.58235,1.02264,1.0461,1.00457,1.26037
-pipeline_A_e50_gpu_seed123,A,123,final_epoch,50,0.7478,0.69556,0.74365,0.52448,0.67089,0.59177,1.02454,1.05014,1.0102,1.26332
-pipeline_B_e50_gpu_seed7,B,7,final_epoch,50,0.79372,0.66713,0.75581,0.53518,0.67014,0.59027,1.02303,1.04489,0.99474,1.25671
-pipeline_B_e50_gpu_seed42,B,42,final_epoch,50,0.77476,0.67603,0.75473,0.53116,0.66989,0.58351,1.0258,1.04702,0.99554,1.2664
+experiment_name,pipeline,visual_pipeline,normalization,seed,epochs,mode,epoch,precision,recall,mAP50,mAP50_95,train_box_loss,train_cls_loss,train_dfl_loss,val_box_loss,val_cls_loss,val_dfl_loss
+pipeline_A_N0_e50_gpu_seed7,A_N0,A,N0,7,50,final_epoch,50,0.75436,0.7037,0.757,0.53498,0.66981,0.58777,1.02174,1.04868,0.98954,1.26248
+pipeline_A_N0_e50_gpu_seed42,A_N0,A,N0,42,50,final_epoch,50,0.77312,0.68066,0.75832,0.53526,0.66948,0.58235,1.02264,1.0461,1.00457,1.26037
+pipeline_A_N0_e50_gpu_seed123,A_N0,A,N0,123,50,final_epoch,50,0.7478,0.69556,0.74365,0.52448,0.67089,0.59177,1.02454,1.05014,1.0102,1.26332
+pipeline_A_N1_e50_gpu_seed7,A_N1,A,N1,7,50,final_epoch,50,0.79372,0.66713,0.75581,0.53518,0.67014,0.59027,1.02303,1.04489,0.99474,1.25671
+pipeline_A_N1_e50_gpu_seed42,A_N1,A,N1,42,50,final_epoch,50,0.77476,0.67603,0.75473,0.53116,0.66989,0.58351,1.0258,1.04702,0.99554,1.2664
+pipeline_A_N1_e50_gpu_seed123,A_N1,A,N1,123,50,final_epoch,50,0.75371,0.68365,0.74679,0.52703,0.67038,0.59008,1.02183,1.04501,1.00903,1.26235
+pipeline_C_N1_e50_gpu_seed42,C_N1,C,N1,42,50,final_epoch,50,0.74839,0.68815,0.75299,0.52789,0.67584,0.5862,1.02805,1.05238,1.0019,1.27094

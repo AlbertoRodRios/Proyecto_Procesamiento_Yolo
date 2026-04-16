@@ -107,7 +107,7 @@ def print_stats(stats: dict) -> None:
 
 def main() -> None:
     train_images_dir = Path("data/pipeline_A/images/train")
-    output_path = Path("data/pipeline_A/channel_stats.json")
+    output_path = Path("data/channel_stats.json")
 
     if not train_images_dir.exists():
         raise FileNotFoundError(

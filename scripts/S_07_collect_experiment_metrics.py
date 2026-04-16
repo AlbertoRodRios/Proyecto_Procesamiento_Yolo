@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-import re
 import pandas as pd
 
 
@@ -22,19 +21,57 @@ TARGET_COLUMNS = {
 }
 
 
-def parse_experiment_name(folder_name: str) -> tuple[str, int] | None:
+def parse_experiment_name(folder_name: str):
     """
-    Extrae pipeline (A/B/...) y seed desde nombres como:
-    pipeline_A_e50_gpu_seed7
-    pipeline_B_e50_gpu_seed42
+    Soporta nombres como:
+    pipeline_A_N0_e50_gpu_seed42
+    pipeline_A_N1_e50_gpu_seed42
+    pipeline_C_N0_e50_gpu_seed7
+    pipeline_D_N1_e50_gpu_seed123
     """
-    match = re.search(r"pipeline_([A-Z])_.*_seed(\d+)", folder_name)
-    if not match:
+    parts = folder_name.split("_")
+
+    # Esperado:
+    # ['pipeline', 'A', 'N0', 'e50', 'gpu', 'seed42']
+    if len(parts) != 6:
         return None
 
-    pipeline = match.group(1)
-    seed = int(match.group(2))
-    return pipeline, seed
+    if parts[0] != "pipeline":
+        return None
+
+    visual_pipeline = parts[1]
+    normalization = parts[2]
+    epoch_tag = parts[3]
+    gpu_tag = parts[4]
+    seed_tag = parts[5]
+
+    if visual_pipeline not in {"A", "C", "D"}:
+        return None
+
+    if normalization not in {"N0", "N1"}:
+        return None
+
+    if not epoch_tag.startswith("e"):
+        return None
+
+    if gpu_tag != "gpu":
+        return None
+
+    if not seed_tag.startswith("seed"):
+        return None
+
+    seed = int(seed_tag.replace("seed", ""))
+    epochs = int(epoch_tag.replace("e", ""))
+
+    pipeline_label = f"{visual_pipeline}_{normalization}"
+
+    return {
+        "visual_pipeline": visual_pipeline,
+        "normalization": normalization,
+        "pipeline": pipeline_label,
+        "seed": seed,
+        "epochs": epochs,
+    }
 
 
 def load_results_csv(exp_dir: Path) -> pd.DataFrame | None:
@@ -49,12 +86,24 @@ def load_results_csv(exp_dir: Path) -> pd.DataFrame | None:
     return df
 
 
-def extract_row_metrics(row: pd.Series, exp_name: str, pipeline: str, seed: int, mode: str) -> dict:
+def extract_row_metrics(
+    row: pd.Series,
+    exp_name: str,
+    pipeline: str,
+    seed: int,
+    mode: str,
+    visual_pipeline: str | None = None,
+    normalization: str | None = None,
+    epochs: int | None = None,
+) -> dict:
     metrics = {
         "experiment_name": exp_name,
-        "pipeline": pipeline,
+        "pipeline": pipeline,                 # ej. A_N0, A_N1, C_N0, C_N1
+        "visual_pipeline": visual_pipeline,   # ej. A, C, D
+        "normalization": normalization,       # ej. N0, N1
         "seed": seed,
-        "mode": mode,   # final_epoch o best_epoch
+        "epochs": epochs,
+        "mode": mode,                         # final_epoch o best_epoch
         "epoch": int(row["epoch"]) if "epoch" in row else None,
     }
 
@@ -80,7 +129,11 @@ def collect_metrics() -> tuple[pd.DataFrame, pd.DataFrame]:
             print(f"[INFO] Carpeta ignorada por no coincidir con patrón: {exp_dir.name}")
             continue
 
-        pipeline, seed = parsed
+        pipeline = parsed["pipeline"]
+        visual_pipeline = parsed["visual_pipeline"]
+        normalization = parsed["normalization"]
+        seed = parsed["seed"]
+        epochs = parsed["epochs"]
 
         df = load_results_csv(exp_dir)
         if df is None:
@@ -90,14 +143,32 @@ def collect_metrics() -> tuple[pd.DataFrame, pd.DataFrame]:
         # Última época
         final_row = df.iloc[-1]
         final_rows.append(
-            extract_row_metrics(final_row, exp_dir.name, pipeline, seed, mode="final_epoch")
+            extract_row_metrics(
+                final_row,
+                exp_dir.name,
+                pipeline,
+                seed,
+                mode="final_epoch",
+                visual_pipeline=visual_pipeline,
+                normalization=normalization,
+                epochs=epochs,
+            )
         )
 
         # Mejor época = máximo mAP50-95
         best_idx = df[TARGET_COLUMNS["mAP50_95"]].idxmax()
         best_row = df.loc[best_idx]
         best_rows.append(
-            extract_row_metrics(best_row, exp_dir.name, pipeline, seed, mode="best_epoch")
+            extract_row_metrics(
+                best_row,
+                exp_dir.name,
+                pipeline,
+                seed,
+                mode="best_epoch",
+                visual_pipeline=visual_pipeline,
+                normalization=normalization,
+                epochs=epochs,
+            )
         )
 
     final_df = pd.DataFrame(final_rows)
@@ -122,7 +193,6 @@ def build_summary_table(df: pd.DataFrame, label: str) -> pd.DataFrame:
 
     grouped = df.groupby("pipeline")[metric_cols].agg(["mean", "std"]).reset_index()
 
-    # Aplana multi-index columns
     grouped.columns = [
         "pipeline" if col[0] == "pipeline" else f"{col[0]}_{col[1]}"
         for col in grouped.columns
@@ -156,8 +226,20 @@ def save_outputs(final_df: pd.DataFrame, best_df: pd.DataFrame) -> None:
 
 
 def print_quick_view(final_df: pd.DataFrame, best_df: pd.DataFrame) -> None:
+    cols = [
+        "experiment_name",
+        "pipeline",
+        "visual_pipeline",
+        "normalization",
+        "seed",
+        "epoch",
+        "precision",
+        "recall",
+        "mAP50",
+        "mAP50_95",
+    ]
+
     print("\n=== Última época por experimento ===")
-    cols = ["experiment_name", "pipeline", "seed", "epoch", "precision", "recall", "mAP50", "mAP50_95"]
     print(final_df[cols].sort_values(by=["pipeline", "seed"]).to_string(index=False))
 
     print("\n=== Mejor época por experimento ===")

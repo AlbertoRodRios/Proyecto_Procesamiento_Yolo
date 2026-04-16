@@ -55,6 +55,7 @@ runs/**
 
 outputs/
 
+
 # Model weights / checkpoints
 *.pt
 *.pth
@@ -69,6 +70,7 @@ data/pipeline_B/
 data/pipeline_C/
 data/pipeline_D/
 data/pipeline_E/
+data/channel_stats.json
 *.tar
 *.tar.gz
 *.zip

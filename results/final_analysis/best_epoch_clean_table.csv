@@ -1,0 +1,8 @@
+experiment_name,pipeline,visual_pipeline,normalization,seed,epochs,epoch,precision,recall,mAP50,mAP50_95
+pipeline_A_N0_e50_gpu_seed7,A_N0,A,N0,7,50,50,0.75436,0.7037,0.757,0.53498
+pipeline_A_N0_e50_gpu_seed42,A_N0,A,N0,42,50,50,0.77312,0.68066,0.75832,0.53526
+pipeline_A_N0_e50_gpu_seed123,A_N0,A,N0,123,50,50,0.7478,0.69556,0.74365,0.52448
+pipeline_A_N1_e50_gpu_seed7,A_N1,A,N1,7,50,50,0.79372,0.66713,0.75581,0.53518
+pipeline_A_N1_e50_gpu_seed42,A_N1,A,N1,42,50,50,0.77476,0.67603,0.75473,0.53116
+pipeline_A_N1_e50_gpu_seed123,A_N1,A,N1,123,50,50,0.75371,0.68365,0.74679,0.52703
+pipeline_C_N1_e50_gpu_seed42,C_N1,C,N1,42,50,50,0.74839,0.68815,0.75299,0.52789
