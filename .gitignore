@@ -43,10 +43,14 @@ dist/
 # Training outputs / experiment artifacts
 runs/**
 !runs/**/
+!runs/**/args.yaml
+!runs/**/results.csv
+!runs/**/labels.jpg
 !runs/**/results.png
 !runs/**/confusion_matrix.png
 !runs/**/confusion_matrix_normalized.png
 !runs/**/*_curve.png
+!runs/**/train_batch*.jpg
 !runs/**/val_batch*.jpg
 
 outputs/
