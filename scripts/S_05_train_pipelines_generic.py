@@ -7,10 +7,10 @@ from scripts.S_03_custom_trainers import StandardizedDetectionTrainer
 # =========================
 # CONFIGURACIÓN EXPERIMENTO
 # =========================
-VISUAL_PIPELINE = "B"   # A, C, D
-NORMALIZATION = "N1"    # N0, N1
+VISUAL_PIPELINE = "C"   # A, B, C
+NORMALIZATION = "N0"    # N0, N1
 EPOCHS = 50
-SEED = 42
+SEED = 123
 DEVICE = 0
 BATCH = 16
 IMGSZ = 640

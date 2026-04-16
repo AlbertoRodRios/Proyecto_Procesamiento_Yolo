@@ -7,7 +7,7 @@ from scripts.S_03_custom_trainers import StandardizedDetectionValidator
 # =========================
 # CONFIGURACIÓN EXPERIMENTO
 # =========================
-VISUAL_PIPELINE = "A"   # A, C, D
+VISUAL_PIPELINE = "A"   # A, B, C
 NORMALIZATION = "N1"    # N0, N1
 EPOCHS = 50
 SEED = 42
@@ -15,10 +15,10 @@ DEVICE = 0
 BATCH = 16
 IMGSZ = 640
 WORKERS = 4
-SPLIT = "val"           # val o test
+SPLIT = "test"           # val o test
 PROJECT_DIR = "results/detect_experiments"
 
-VALID_VISUAL_PIPELINES = {"A", "C", "D"}
+VALID_VISUAL_PIPELINES = {"A", "B", "C"}
 VALID_NORMALIZATIONS = {"N0", "N1"}
 
 
